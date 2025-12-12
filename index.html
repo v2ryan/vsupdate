@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VS Code 2025 發佈說明 (zh-HK)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Markdown parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+        /* Markdown content styling (plain CSS for CDN Tailwind) */
+        #content h1 {
+            font-size: 1.875rem;
+            line-height: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgb(51 65 85 / 1);
+        }
+        #content h2 {
+            font-size: 1.5rem;
+            line-height: 2rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        #content h3 {
+            font-size: 1.25rem;
+            line-height: 1.75rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        #content p {
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+        }
+        #content ul {
+            list-style-type: disc;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            margin-left: 1.5rem;
+        }
+        #content ol {
+            list-style-type: decimal;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            margin-left: 1.5rem;
+        }
+        #content table {
+            width: 100%;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+        #content th,
+        #content td {
+            border: 1px solid rgb(51 65 85 / 1);
+            padding: 0.25rem 0.5rem;
+        }
+        #content th {
+            background-color: rgb(15 23 42 / 1);
+            font-weight: 600;
+        }
+        #content code {
+            background-color: rgb(30 41 59 / 1);
+            border-radius: 0.25rem;
+            padding: 0.1rem 0.25rem;
+            font-size: 0.875rem;
+        }
+        #content pre {
+            background-color: rgb(15 23 42 / 1);
+            color: rgb(226 232 240 / 1);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+        #content a {
+            color: rgb(56 189 248 / 1);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen">
+    <div class="min-h-screen flex flex-col">
+        <!-- Top bar -->
+        <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-20">
+            <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+                <div>
+                    <h1 class="text-lg sm:text-2xl font-semibold tracking-tight">VS Code 2025 發佈說明</h1>
+                    <p class="text-xs sm:text-sm text-slate-400">中文版 (zh-HK) · 可按月份／版本快速切換</p>
+                </div>
+                <div class="flex items-center gap-2 text-xs sm:text-sm text-slate-400">
+                    <span class="hidden sm:inline">Powered by</span>
+                    <span class="font-semibold text-sky-400">GitHub Pages · HTML + Markdown</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1">
+            <div class="max-w-6xl mx-auto px-4 py-4 sm:py-6 flex flex-col md:flex-row gap-4 sm:gap-6">
+                <!-- Sidebar: month / version selector -->
+                <aside class="md:w-64 flex-shrink-0">
+                    <div class="bg-slate-900/70 border border-slate-800 rounded-xl shadow-lg overflow-hidden">
+                        <div class="px-4 py-3 border-b border-slate-800 flex items-center justify-between gap-2">
+                            <div>
+                                <h2 class="text-sm font-semibold text-slate-100">選擇月份</h2>
+                                <p class="text-xs text-slate-400">2025 年 1–11 月 VS Code</p>
+                            </div>
+                        </div>
+
+                        <!-- Date dropdown for small screens -->
+                        <div class="p-3 border-b border-slate-800 md:hidden">
+                            <label class="block text-xs font-medium text-slate-400 mb-1">快速選擇</label>
+                            <select id="monthSelect" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+                            </select>
+                        </div>
+
+                        <!-- Month list for larger screens -->
+                        <div class="hidden md:block max-h-[70vh] overflow-y-auto">
+                            <nav id="monthList" class="py-2 text-sm">
+                                <!-- JS 生成月份按鈕 -->
+                            </nav>
+                        </div>
+                    </div>
+
+                    <!-- Small hint card -->
+                    <div class="mt-3 text-xs text-slate-400 space-y-1.5">
+                        <p>· 此頁係主入口，可直接用 GitHub Pages URL 開啟。</p>
+                        <p>· Markdown 原檔位於 VS_Code_2025_Release_Notes 資料夾。</p>
+                    </div>
+                </aside>
+
+                <!-- Content area -->
+                <section class="flex-1 min-w-0">
+                    <div class="bg-slate-900/70 border border-slate-800 rounded-xl shadow-xl overflow-hidden flex flex-col h-full">
+                        <div class="px-4 sm:px-6 py-3 border-b border-slate-800 flex items-center justify-between gap-3">
+                            <div>
+                                <p id="currentTitle" class="text-sm sm:text-base font-medium text-slate-100">載入中…</p>
+                                <p id="currentMeta" class="text-xs text-slate-400">請稍候</p>
+                            </div>
+                            <button id="openRawBtn" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-700 text-xs text-slate-300 hover:bg-slate-800 transition" type="button">
+                                <span>查看原始 Markdown</span>
+                            </button>
+                        </div>
+
+                        <div id="contentWrapper" class="flex-1 overflow-auto">
+                            <article id="content" class="prose prose-invert max-w-none px-4 sm:px-6 py-4 sm:py-6">
+                                <p class="text-sm text-slate-400">請從左邊選擇一個月份，系統會幫你讀取 <code class="bg-slate-800 px-1 rounded">VS_Code_2025_Release_Notes</code> 資料夾入面對應嘅發佈說明 Markdown 檔案，並即時轉換成 HTML 顯示喺呢度。</p>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // 所有可用發佈記錄 (指向子資料夾 VS_Code_2025_Release_Notes)
+        const releases = [
+            { id: "2025-01", month: "1 月", label: "2025年1月更新 · 版本 1.97", file: "VS_Code_2025_Release_Notes/01_January_v1.97_zh-HK.md" },
+            { id: "2025-02", month: "2 月", label: "2025年2月更新 · 版本 1.98", file: "VS_Code_2025_Release_Notes/02_February_v1.98_zh-HK.md" },
+            { id: "2025-03", month: "3 月", label: "2025年3月更新 · 版本 1.99", file: "VS_Code_2025_Release_Notes/03_March_v1.99_zh-HK.md" },
+            { id: "2025-04", month: "4 月", label: "2025年4月更新 · 版本 1.100", file: "VS_Code_2025_Release_Notes/04_April_v1.100_zh-HK.md" },
+            { id: "2025-05", month: "5 月", label: "2025年5月更新 · 版本 1.101", file: "VS_Code_2025_Release_Notes/05_May_v1.101_zh-HK.md" },
+            { id: "2025-06", month: "6 月", label: "2025年6月更新 · 版本 1.102", file: "VS_Code_2025_Release_Notes/06_June_v1.102_zh-HK.md" },
+            { id: "2025-07", month: "7 月", label: "2025年7月更新 · 版本 1.103", file: "VS_Code_2025_Release_Notes/07_July_v1.103_zh-HK.md" },
+            { id: "2025-08", month: "8 月", label: "2025年8月更新 · 版本 1.104", file: "VS_Code_2025_Release_Notes/08_August_v1.104_zh-HK.md" },
+            { id: "2025-09", month: "9 月", label: "2025年9月更新 · 版本 1.105", file: "VS_Code_2025_Release_Notes/09_September_v1.105_zh-HK.md" },
+            { id: "2025-10", month: "10 月", label: "2025年10月更新 · 版本 1.106", file: "VS_Code_2025_Release_Notes/10_October_v1.106_zh-HK.md" },
+            { id: "2025-11", month: "11 月", label: "2025年11月更新 · 版本 1.107", file: "VS_Code_2025_Release_Notes/11_November_v1.107_zh-HK.md" },
+        ];
+
+        const monthListEl = document.getElementById("monthList");
+        const monthSelectEl = document.getElementById("monthSelect");
+        const contentEl = document.getElementById("content");
+        const currentTitleEl = document.getElementById("currentTitle");
+        const currentMetaEl = document.getElementById("currentMeta");
+        const openRawBtn = document.getElementById("openRawBtn");
+
+        let currentRelease = null;
+
+        function renderSidebar() {
+            // Dropdown (mobile)
+            releases.forEach(r => {
+                const opt = document.createElement("option");
+                opt.value = r.id;
+                opt.textContent = r.label;
+                monthSelectEl.appendChild(opt);
+            });
+
+            // List (desktop)
+            releases.forEach(r => {
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.dataset.id = r.id;
+                btn.className = "w-full text-left px-4 py-2.5 text-slate-200 hover:bg-slate-800/80 flex items-center justify-between gap-2 text-sm transition";
+                btn.innerHTML = `
+                    <span class="flex flex-col">
+                        <span class="font-medium">${r.label}</span>
+                        <span class="text-xs text-slate-400">${r.month} · VS Code 2025</span>
+                    </span>
+                    <span class="text-[10px] px-1.5 py-0.5 rounded-full border border-slate-600 text-slate-300">v${r.file.match(/v([0-9.]+)/)?.[1] || ""}</span>
+                `;
+                btn.addEventListener("click", () => selectRelease(r.id));
+                monthListEl.appendChild(btn);
+            });
+        }
+
+        function updateSidebarActive(id) {
+            // Update list buttons
+            monthListEl.querySelectorAll("button").forEach(btn => {
+                if (btn.dataset.id === id) {
+                    btn.classList.add("bg-slate-800", "border-l-4", "border-sky-500");
+                } else {
+                    btn.classList.remove("bg-slate-800", "border-l-4", "border-sky-500");
+                }
+            });
+            // Update dropdown
+            if (monthSelectEl.value !== id) {
+                monthSelectEl.value = id;
+            }
+        }
+
+        async function selectRelease(id) {
+            const rel = releases.find(r => r.id === id);
+            if (!rel) return;
+            currentRelease = rel;
+            updateSidebarActive(id);
+
+            currentTitleEl.textContent = rel.label;
+            currentMetaEl.textContent = `${rel.month} · 由 VS_Code_2025_Release_Notes 內嘅 Markdown 檔案 (${rel.file.split("/").pop()}) 轉換`;
+            contentEl.innerHTML = "<p class='text-sm text-slate-400'>載入內容中…</p>";
+
+            try {
+                const res = await fetch(rel.file);
+                if (!res.ok) throw new Error("HTTP " + res.status);
+                const md = await res.text();
+                const html = marked.parse(md, { breaks: true });
+                contentEl.innerHTML = html;
+            } catch (err) {
+                console.error(err);
+                contentEl.innerHTML = `
+                    <div class="text-sm text-red-300">
+                        <p class="font-semibold mb-1">載入失敗</p>
+                        <p>無法讀取 <code class="bg-slate-800 px-1 rounded">${rel.file}</code>。</p>
+                        <p class="mt-1 text-slate-400">請確認：</p>
+                        <ul class="list-disc list-inside mt-1 text-slate-400">
+                            <li>GitHub Pages 設定部署來源為 main 分支 / 根目錄；</li>
+                            <li>VS_Code_2025_Release_Notes 資料夾同檔案名稱保持不變；</li>
+                            <li>重新整理頁面再試。</li>
+                        </ul>
+                    </div>
+                `;
+            }
+        }
+
+        // 下拉選單切換
+        monthSelectEl.addEventListener("change", e => {
+            if (e.target.value) selectRelease(e.target.value);
+        });
+
+        // 查看原始 Markdown 按鈕
+        openRawBtn.addEventListener("click", () => {
+            if (!currentRelease) return;
+            window.open(currentRelease.file, "_blank");
+        });
+
+        // 初始化
+        renderSidebar();
+        // 預設載入最新一個 (11 月)
+        const defaultId = releases[releases.length - 1].id;
+        monthSelectEl.value = defaultId;
+        selectRelease(defaultId);
+    </script>
+</body>
+</html>
